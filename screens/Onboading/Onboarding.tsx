@@ -19,10 +19,6 @@ const Onboarding: React.FC<OnboardingScreenType> = () => {
     (e) => (translateY.value = e.contentOffset.y)
   );
 
-  const activeIndex = useDerivedValue(() => {
-    return Math.round(translateY.value / width);
-  });
-
   return (
     <View style={styles.container}>
       <Animated.ScrollView
@@ -39,7 +35,7 @@ const Onboarding: React.FC<OnboardingScreenType> = () => {
       </Animated.ScrollView>
       <View style={styles.dots}>
         {data.map((d, i) => (
-          <Dot index={i} translateY={translateY} activeIndex={activeIndex} />
+          <Dot index={i} translateY={translateY} />
         ))}
       </View>
     </View>

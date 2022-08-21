@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Image,
+  Pressable,
+} from "react-native";
 import type { PageType } from "./Page.type";
 import Animated, {
   useAnimatedStyle,
@@ -56,9 +63,11 @@ const Page: React.FC<PageType> = ({ data, translateY, index }) => {
           style={[rImageStyle]}
         />
       </Animated.View>
-      <Animated.Text style={[styles.Text, rTextStyle]}>
-        {data.name}
-      </Animated.Text>
+      <Animated.View style={styles.ButtonAndTextContainer}>
+        <Animated.Text style={[styles.Text, rTextStyle]}>
+          {data.name}
+        </Animated.Text>
+      </Animated.View>
     </View>
   );
 };
@@ -73,13 +82,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
-  Text: {
-    top: "65%",
+  ButtonAndTextContainer: {
+    top: "85%",
+    marginLeft: 100,
+    right: 10,
     position: "absolute",
+    alignItems: "flex-end",
+  },
+  Text: {
     color: "darkblue",
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: "900",
-    textAlign: "center",
+    textAlign: "right",
   },
 });
