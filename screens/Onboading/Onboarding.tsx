@@ -1,12 +1,16 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { OnboardingScreenType } from "./Onboarding.type";
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
+  useDerivedValue,
 } from "react-native-reanimated";
 import Page from "./components/Page";
 import { data } from "./data";
+import Dot from "./components/Dots/Dot";
+
+const { width } = Dimensions.get("screen");
 
 const Onboarding: React.FC<OnboardingScreenType> = () => {
   const translateY = useSharedValue(0);
@@ -14,6 +18,10 @@ const Onboarding: React.FC<OnboardingScreenType> = () => {
   const ScrollHandler = useAnimatedScrollHandler(
     (e) => (translateY.value = e.contentOffset.y)
   );
+
+  const activeIndex = useDerivedValue(() => {
+    return Math.round(translateY.value / width);
+  });
 
   return (
     <View style={styles.container}>
@@ -29,6 +37,11 @@ const Onboarding: React.FC<OnboardingScreenType> = () => {
           <Page data={d} translateY={translateY} index={i} />
         ))}
       </Animated.ScrollView>
+      <View style={styles.dots}>
+        {data.map((d, i) => (
+          <Dot index={i} translateY={translateY} activeIndex={activeIndex} />
+        ))}
+      </View>
     </View>
   );
 };
@@ -39,6 +52,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    position: "relative",
     justifyContent: "center",
+  },
+  dots: {
+    position: "absolute",
+    left: 20,
+    bottom: 50,
   },
 });
